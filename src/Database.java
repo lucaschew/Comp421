@@ -1,3 +1,5 @@
+import com.ibm.db2.jcc.DB2Driver;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -7,7 +9,7 @@ class Database {
 
     // Creates database connection when creating object
     public Database() throws SQLException {
-        DriverManager.registerDriver(new com.ibm.db2.jcc.DB2Driver());
+        DriverManager.registerDriver(new DB2Driver());
 
         conn = DriverManager.getConnection(
                 "jdbc:db2://winter2024-comp421.cs.mcgill.ca:50000/COMP421",
@@ -24,7 +26,7 @@ class Database {
     // Insert or Update values in the database
     public boolean dbInsertOrUpdate(String sqlString) throws SQLException {
         Statement stmt = conn.createStatement();
-        boolean result;
+        boolean result = false;
 
         try {
             // Execute Statement
@@ -34,7 +36,8 @@ class Database {
             stmt.close();
             conn.close();
             System.out.println("ERROR: " + e.getMessage());
-            throw e;
+            System.out.println("SQL Insert or Update Had Failed");
+            System.exit(e.getErrorCode());
         }
 
         stmt.close();
@@ -46,7 +49,7 @@ class Database {
     public ArrayList<ArrayList<String>> dbQuery(String sqlString) throws SQLException {
         Statement stmt = conn.createStatement();
 
-        ArrayList<ArrayList<String>> data;
+        ArrayList<ArrayList<String>> data = null;
         try {
             // Execute Query
             ResultSet result = stmt.executeQuery(sqlString);
@@ -73,7 +76,8 @@ class Database {
             stmt.close();
             conn.close();
             System.out.println("ERROR: " + e.getMessage());
-            throw e;
+            System.out.println("SQL Query Had Failed");
+            System.exit(e.getErrorCode());
         }
 
         stmt.close();
