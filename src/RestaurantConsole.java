@@ -80,6 +80,7 @@ public class RestaurantConsole {
 
                         System.out.print(padRight(row.get(0), 30));
                         System.out.print(padRight(row.get(1), 30));
+                        System.out.println();
                     }
 
                     // Reads and Parses Input
