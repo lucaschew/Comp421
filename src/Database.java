@@ -35,7 +35,10 @@ class Database {
             // If an exception occurs, close connection and then throw the error
             stmt.close();
             conn.close();
-            System.out.println("ERROR: " + e.getMessage());
+            System.err.println(
+                "msg: " + e.getMessage() +
+                "code: " + e.getErrorCode() +
+                "state: " + e.getSQLState());
             System.out.println("SQL Insert or Update Had Failed");
             System.exit(e.getErrorCode());
         }
